@@ -1,0 +1,17 @@
+[alias]
+br = "build -r"
+r = "build -r && docker compose build && docker compose up -d"
+
+[build]
+#target = "wasm32-wasi"
+
+[env]
+RUST_LOG = "debug,sqlx=error"
+DB_HOST = "localhost"
+DB_PORT = "5432"
+DB_NAME = "todo"
+DB_USER = "todo"
+DB_PASSWORD = "Supers3cret"
+
+[target.wasm32-wasi]
+runner = "wasmedge --env=RUST_LOG=debug,sqlx=error --env=FRAGMENDS_DB_HOST=localhost --env=FRAGMENDS_DB_PORT=5432 --env=FRAGMENDS_DB_USER=fragmends --env=FRAGMENDS_DB_NAME=fragmends --env=FRAGMENDS_DB_PASSWORD=Supers3cret --enable-all"

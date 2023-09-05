@@ -1,0 +1,32 @@
+version: '3.8'
+
+services:
+  app:
+    image: jobstoit/fragmends:dev
+    build:
+      context: .
+    platform: wasi/wasm
+    runtime: io.contianerd.wasmedge.v1
+    environment:
+      RUST_LOG: debug,sqlx=info
+      DB_USER: 'todo'
+      DB_PASSWORD: 'Supers3cret'
+      DB_HOST: 'db'
+      DB_PORT: '5432'
+      DB_NAME: 'todo'
+    ports:
+      - 8080:8080
+
+  db:
+    image: postgres
+    environment:
+      POSTGRES_PASSWORD: 'Supers3cret'
+      POSTGRES_USER: 'todo'
+      POSTGRES_DB: 'todo'
+    ports:
+      - 5432:5432
+    volumes:
+      - db-data:/var/lib/postgresql/data
+
+volumes:
+  db-data:
